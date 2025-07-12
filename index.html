@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brainfuck Helper</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title"><i class="fas fa-brain"></i> Brainfuck Helper</h1>
+            <p class="subtitle">Преобразуйте расширенный синтаксис Brainfuck в стандартный</p>
+        </header>
+
+        <div class="main-content">
+            <div class="editor-section">
+                <div class="toolbar">
+                    <button id="convert-btn" class="btn primary"><i class="fas fa-exchange-alt"></i>
+                        Конвертировать</button>
+                    <button id="clear-btn" class="btn"><i class="fas fa-trash"></i> Очистить</button>
+                    <button id="run-btn" class="btn success"><i class="fas fa-play"></i> Запустить в
+                        визуализаторе</button>
+                </div>
+                <textarea id="input-code" class="code-editor"
+                    placeholder="Введите ваш расширенный Brainfuck код здесь..."></textarea>
+                <div class="output-container">
+                    <h3>Результат:</h3>
+                    <pre id="output-code" class="code-output"></pre>
+                    <div id="copy-status" class="copy-status"></div>
+                    <button id="copy-btn" class="btn copy-btn"><i class="far fa-copy"></i> Копировать в буфер</button>
+                </div>
+            </div>
+
+            <div class="reference-section">
+                <div class="reference-card">
+                    <h2><i class="fas fa-star"></i> Расширенный синтаксис</h2>
+                    <div class="table-container">
+                        <table class="reference-table">
+                            <thead>
+                                <tr>
+                                    <th>Синтаксис</th>
+                                    <th>Описание</th>
+                                    <th>Пример</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>$var = N</td>
+                                    <td>Объявление переменной</td>
+                                    <td>$A = 5</td>
+                                </tr>
+                                <tr>
+                                    <td>X{times: n}</td>
+                                    <td>Повторить команду X n раз</td>
+                                    <td>+{times: A+B}</td>
+                                </tr>
+                                <tr>
+                                    <td>{to: ptr}</td>
+                                    <td>Переместить указатель на позицию ptr</td>
+                                    <td>{to: 10}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="reference-card extended">
+                    <h2><i class="fas fa-book"></i> Справочник Brainfuck</h2>
+                    <div class="table-container">
+                        <table class="reference-table">
+                            <thead>
+                                <tr>
+                                    <th>Команда</th>
+                                    <th>Описание</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>&gt;</td>
+                                    <td>Переместить указатель вправо</td>
+                                </tr>
+                                <tr>
+                                    <td>&lt;</td>
+                                    <td>Переместить указатель влево</td>
+                                </tr>
+                                <tr>
+                                    <td>+</td>
+                                    <td>Увеличить текущую ячейку</td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>Уменьшить текущую ячейку</td>
+                                </tr>
+                                <tr>
+                                    <td>.</td>
+                                    <td>Вывести ASCII символ</td>
+                                </tr>
+                                <tr>
+                                    <td>,</td>
+                                    <td>Ввести ASCII символ</td>
+                                </tr>
+                                <tr>
+                                    <td>[ ]</td>
+                                    <td>Цикл, пока текущая ячейка != 0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>💻GitHub <a href="https://github.com/Emeteil">Emeteil</a></p>
+        </footer>
+    </div>
+
+    <script src="scripts/converter.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+
+</html>

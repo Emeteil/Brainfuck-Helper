@@ -42,27 +42,52 @@ class BrainfuckConverter {
     }
 
     processToOperation(code) {
-        return code.replace(/\{to:\s*([^}]+)\}/g, (match, expr, offset) => {
-            const targetPos = this.evaluateExpression(expr);
-            if (targetPos < 0)
-                throw new Error(`Целевая позиция не может быть отрицательной: ${targetPos}`);
+        let result = "";
+        let i = 0;
 
-            const steps = targetPos - this.pointerPos;
-            const moveSymbol = steps > 0 ? '>' : '<';
-            const moveCode = moveSymbol.repeat(Math.abs(steps));
+        while (i < code.length) {
+            const char = code[i];
 
-            if (this.toOperations.hasOwnProperty(offset)) {
-                const prevSteps = this.toOperations[offset];
-                if (prevSteps !== steps)
-                    throw new Error(`Неоднозначная операция to: позиция ${offset}, было ${prevSteps}, стало ${steps}`);
+            if (char === '>' || char === '<') {
+                result += char;
+                this.pointerPos += (char === '>') ? 1 : -1;
+                i++;
+            }
+            else if (char === '{' && code.slice(i).startsWith('{to:')) {
+                const end = code.indexOf('}', i);
+                if (end === -1)
+                    throw new Error("Незакрытая конструкция {to: ...}");
+
+                const expr = code.slice(i + 4, end).trim();
+                const targetPos = this.evaluateExpression(expr);
+
+                if (targetPos < 0)
+                    throw new Error(`Целевая позиция не может быть отрицательной: ${targetPos}`);
+
+                const steps = targetPos - this.pointerPos;
+                const moveSymbol = steps > 0 ? '>' : '<';
+                const moveCode = moveSymbol.repeat(Math.abs(steps));
+
+                const offsetKey = i;
+                if (this.toOperations.hasOwnProperty(offsetKey)) {
+                    const prevSteps = this.toOperations[offsetKey];
+                    if (prevSteps !== steps)
+                        throw new Error(`Неоднозначная операция to: позиция ${offsetKey}, было ${prevSteps}, стало ${steps}`);
+                } else {
+                    this.toOperations[offsetKey] = steps;
+                }
+
+                result += moveCode;
+                this.pointerPos = targetPos;
+                i = end + 1;
             }
             else {
-                this.toOperations[offset] = steps;
+                result += char;
+                i++;
             }
+        }
 
-            this.pointerPos = targetPos;
-            return moveCode;
-        });
+        return result;
     }
 
     filterCode(code, chars) {
